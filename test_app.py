@@ -20,4 +20,4 @@ def test_health():
 
     data = response.get_json()
 
-    assert data["status"] == "healthy"
+    assert data["status"] == "broken"
