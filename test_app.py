@@ -10,3 +10,14 @@ def test_home():
     data = response.get_json()
 
     assert data["status"] == "running"
+
+def test_health():
+    client = app.test_client()
+
+    response = client.get("/health")
+
+    assert response.status_code == 200
+
+    data = response.get_json()
+
+    assert data["status"] == "healthy"
