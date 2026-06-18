@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 
 app.get('/', (req, res) => {
-    res.send('CloudShop API LIVE UPDATE');
+    res.send('CloudShop API Running');
 });
 
 if (require.main === module) {
