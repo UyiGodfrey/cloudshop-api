@@ -12,7 +12,7 @@ describe('CloudShop API', () => {
     test('GET / should return correct message', async () => {
         const response = await request(app).get('/');
 
-        expect(response.text).toBe('CloudShop API DEPLOY TEST 🚀');
+        expect(response.text).toBe('CloudShop API Running');
     });
 
 });
