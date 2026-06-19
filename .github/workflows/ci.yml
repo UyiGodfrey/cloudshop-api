@@ -1,4 +1,4 @@
-name: CloudShop CI
+name: CloudShop CI/CD
 
 on:
   push:
@@ -6,13 +6,11 @@ on:
       - main
 
 jobs:
-  test:
-
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -20,8 +18,35 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm install
 
-      - name: Run Tests
+      - name: Run tests
         run: npm test
+
+      - name: Build Docker image
+        run: docker build -t cloudshop-api .
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            cd cloudshop-api
+            git pull origin main
+
+            docker rm -f cloudshop-container || true
+
+            docker build -t cloudshop-api .
+
+            docker run -d \
+              --name cloudshop-container \
+              -p 3000:3000 \
+              cloudshop-api
