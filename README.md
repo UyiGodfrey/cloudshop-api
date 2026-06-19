@@ -23,3 +23,21 @@ cloudshop-api/
 │   └── workflows/
 │       └── ci.yml       # GitHub Actions CI pipeline
 │── README.md            # Project documentation
+
+## 🔁 CI Pipeline (GitHub Actions)
+
+This project uses GitHub Actions to implement Continuous Integration (CI).
+
+The pipeline is triggered automatically whenever code is pushed to the `main` branch.
+
+### CI Workflow Steps:
+
+1. Checkout repository code
+2. Setup Node.js environment (version 20)
+3. Install project dependencies using npm
+4. Run automated tests using Jest
+5. Build Docker image for the application
+
+### CI Goal:
+
+To ensure that every code change is tested and validated before being merged or deployed, improving code quality and reliability.
