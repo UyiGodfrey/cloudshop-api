@@ -11,3 +11,15 @@ The pipeline automatically runs tests and validates the application every time c
 - Jest — Testing framework for unit tests  
 - GitHub Actions — CI automation tool  
 - Docker — Containerization tool (used for build stage)
+
+## 📁 Project Structure
+
+cloudshop-api/
+│── app.js                # Main Express application
+│── package.json         # Project dependencies and scripts
+│── tests/               # Automated test cases (Jest)
+│   └── app.test.js
+│── .github/
+│   └── workflows/
+│       └── ci.yml       # GitHub Actions CI pipeline
+│── README.md            # Project documentation
