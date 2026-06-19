@@ -1,5 +1,11 @@
 ## 🚀 Overview
 
+# 🚀 CloudShop API — CI/CD Deployment to AWS EC2
+
+## 🚀 Overview
+
+This project extends a Node.js API by adding a full CI/CD pipeline that automatically tests, builds, and deploys the application to an AWS EC2 instance using GitHub Actions and SSH automation.
+
 This project is a simple Node.js Express API integrated with a Continuous Integration (CI) pipeline using GitHub Actions.
 
 The pipeline automatically runs tests and validates the application every time code is pushed to the main branch.
