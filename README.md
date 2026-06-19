@@ -41,3 +41,26 @@ The pipeline is triggered automatically whenever code is pushed to the `main` br
 ### CI Goal:
 
 To ensure that every code change is tested and validated before being merged or deployed, improving code quality and reliability.
+
+## 🏁 Results
+
+- CI pipeline runs automatically on every push to the `main` branch
+- All tests are executed using Jest before build stage
+- Docker image is successfully built in CI environment
+- Code quality is enforced through automated testing
+
+---
+
+## 📌 Key Learning Outcomes
+
+- Understanding Continuous Integration (CI) workflows
+- Building automated testing pipelines using GitHub Actions
+- Working with Node.js backend in a DevOps pipeline
+- Writing and executing unit tests using Jest
+- Introduction to Docker image build automation in CI
+
+---
+
+## 🎯 Summary
+
+This project demonstrates a complete CI workflow that ensures every code change is automatically tested and validated before integration. It is a foundational step in modern DevOps practices.
