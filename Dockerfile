@@ -1,12 +1,17 @@
-FROM node:20
+# Base image
+FROM python:3.12-slim
 
+# Set working directory
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm install
-
+# Copy files
 COPY . .
 
-EXPOSE 3000
+# Install dependencies
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
-CMD ["node", "app.js"]
+# Expose Flask port
+EXPOSE 5001
+
+# Run app
+CMD ["python", "app.py"]
