@@ -33,32 +33,32 @@ jobs:
         run: docker push ${{ secrets.DOCKER_USERNAME }}/cloudshop-api:latest
 
   deploy:
-    needs: build-and-push
-    runs-on: ubuntu-latest
+  needs: build-and-push
+  runs-on: ubuntu-latest
 
-    steps:
-      - name: Deploy to EC2
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_KEY }}
-          script: |
-            set -e
+  steps:
+    - name: Deploy to EC2
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USER }}
+        key: ${{ secrets.EC2_KEY }}
+        script: |
+          set -e
 
-            echo "Pulling latest image..."
-            docker pull ${{ secrets.DOCKER_USERNAME }}/cloudshop-api:latest
+          echo "Pulling latest image..."
+          docker pull ${{ secrets.DOCKER_USERNAME }}/cloudshop-api:latest
 
-            echo "Stopping old container..."
-            docker stop cloudshop-api || true
+          echo "Stopping old container..."
+          docker stop cloudshop-api || true
 
-            echo "Removing old container..."
-            docker rm cloudshop-api || true
+          echo "Removing old container..."
+          docker rm cloudshop-api || true
 
-            echo "Starting new container..."
-            docker run -d \
-              --name cloudshop-api \
-              -p 5001:5001 \
-              ${{ secrets.DOCKER_USERNAME }}/cloudshop-api:latest
+          echo "Running new container..."
+          docker run -d \
+            --name cloudshop-api \
+            -p 5001:5001 \
+            ${{ secrets.DOCKER_USERNAME }}/cloudshop-api:latest
 
-            echo "Deployment complete"
+          echo "Deployment successful"
