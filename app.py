@@ -7,6 +7,7 @@ def home():
     return {
         "application": "CloudShop API",
         "status": "running"
+        "version": "project4"
     }
 
 @app.route("/health")
