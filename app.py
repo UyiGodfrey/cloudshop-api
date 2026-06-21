@@ -6,7 +6,7 @@ app = Flask(__name__)
 def home():
     return {
         "application": "CloudShop API",
-        "status": "running"
+        "status": "running",
         "version": "project4"
     }
 
