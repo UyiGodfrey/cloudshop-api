@@ -1,4 +1,4 @@
-name: Deploy to EC2 (Docker)
+name: Project 4 CI/CD Pipeline
 
 on:
   push:
@@ -6,13 +6,32 @@ on:
       - main
 
 jobs:
-  deploy:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Run Tests
+        run: |
+          npm install
+          npm test
+
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Build Docker Image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/cloudshop-api:v1 .
+
+      - name: Push Image to Docker Hub
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/cloudshop-api:v1
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -20,15 +39,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            cd cloudshop-api
-            git pull origin main
-
-            docker build -t cloudshop-api:v1 .
-
+            docker pull ${{ secrets.DOCKER_USERNAME }}/cloudshop-api:v1
             docker stop cloudshop-api || true
             docker rm cloudshop-api || true
-
-            docker run -d \
-            --name cloudshop-api \
-            -p 3000:5001 \
-            cloudshop-api:v1
+            docker run -d -p 3000:5001 --name cloudshop-api ${{ secrets.DOCKER_USERNAME }}/cloudshop-api:v1
