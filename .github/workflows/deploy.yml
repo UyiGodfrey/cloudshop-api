@@ -22,7 +22,13 @@ jobs:
           script: |
             cd cloudshop-api
             git pull origin main
+
             docker build -t cloudshop-api:v1 .
+
             docker stop cloudshop-api || true
             docker rm cloudshop-api || true
-            docker run -d --name cloudshop-api -p 3000:3000 cloudshop-api:v1
+
+            docker run -d \
+            --name cloudshop-api \
+            -p 3000:5001 \
+            cloudshop-api:v1
