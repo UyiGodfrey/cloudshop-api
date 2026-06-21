@@ -49,16 +49,14 @@ jobs:
           echo "Pulling latest image..."
           docker pull ${{ secrets.DOCKER_USERNAME }}/cloudshop-api:latest
 
-          echo "Stopping old container..."
-          docker stop cloudshop-api || true
+          echo "Stopping container..."
+          docker stop cloudshop-container || true
 
-          echo "Removing old container..."
-          docker rm cloudshop-api || true
+          echo "Removing container..."
+          docker rm cloudshop-container || true
 
-          echo "Running new container..."
+          echo "Running container..."
           docker run -d \
-            --name cloudshop-api \
+            --name cloudshop-container \
             -p 5001:5001 \
             ${{ secrets.DOCKER_USERNAME }}/cloudshop-api:latest
-
-          echo "Deployment successful"
